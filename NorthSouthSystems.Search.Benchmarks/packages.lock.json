@@ -28,12 +28,12 @@
       },
       "NorthSouthSystems.Opinions.StackExchange": {
         "type": "Direct",
-        "requested": "[10.0.4, )",
-        "resolved": "10.0.4",
-        "contentHash": "7hWVsoluNiZJqRE1WafzX+RCDmYREzoqyU4wzfrO0brdwDEIohO87PH1lyiwVE5LIZ1ugD8d7IcLk/BnvGs7rw==",
+        "requested": "[10.1.1, )",
+        "resolved": "10.1.1",
+        "contentHash": "Kn/+p5iDMmdUYiTKvgioR2iepgdfbm3UV6cKbUK2D1gBMYNUWTUQwtULcEmbXgPT12d3w3xtwJYQNbeOi3A41w==",
         "dependencies": {
           "MemoryPack": "1.21.4",
-          "NorthSouthSystems.Opinions.BCL": "10.0.4",
+          "NorthSouthSystems.Opinions.BCL": "10.1.1",
           "System.IO.Hashing": "10.0.0",
           "morelinq": "4.4.0"
         }
@@ -179,8 +179,8 @@
       },
       "NorthSouthSystems.Opinions.BCL": {
         "type": "Transitive",
-        "resolved": "10.0.4",
-        "contentHash": "88FT1W8uIH2eBOCHuODw0E3NB+rR0IDZEtqtvVlZVxWYw6isLeOyVYkgo+19qFiplqca7zaqubH537I55K3VDA==",
+        "resolved": "10.1.1",
+        "contentHash": "SRsOPOMOOChkHve1nwPf/l7/LEBxVIBXvJNpUclEK0bslwScbu7+MXrwX7AnlYqgtSO0QpIyA7NSVxJciBDGjA==",
         "dependencies": {
           "System.IO.Hashing": "10.0.0"
         }
