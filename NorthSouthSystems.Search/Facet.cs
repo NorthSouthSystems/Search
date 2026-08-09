@@ -1,7 +1,7 @@
 ﻿namespace NorthSouthSystems.Search;
 
 public sealed class Facet<TKey> : IFacet
-        where TKey : IEquatable<TKey>, IComparable<TKey>
+    where TKey : IEquatable<TKey>, IComparable<TKey>
 {
     internal Facet(IEnumerable<FacetCategory<TKey>> categories) =>
         Categories = categories.Where(category => category.Count > 0).ToArray();

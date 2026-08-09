@@ -1,9 +1,12 @@
 ﻿#if POSITIONLISTENABLED && WORDSIZE64
 using NorthSouthSystems.BitVectors.PLWAH64;
+
 #elif POSITIONLISTENABLED
 using NorthSouthSystems.BitVectors.PLWAH;
+
 #elif WORDSIZE64
 using NorthSouthSystems.BitVectors.WAH64;
+
 #else
 using NorthSouthSystems.BitVectors.WAH;
 #endif
@@ -35,11 +38,11 @@ public class T_Word_Compress
     {
         foreach (WordRawType wordValue in new[]
 #if WORDSIZE64
-                { Word.ONE, Word.FILLBITMASK, Word.COMPRESSIBLEMASK - Word.ONE, Word.COMPRESSIBLEMASK - Word.FILLBITMASK, 0x1234_5678_9ABC_DEFFul, 0x7FED_CBA9_8765_4321ul }
+                     { Word.ONE, Word.FILLBITMASK, Word.COMPRESSIBLEMASK - Word.ONE, Word.COMPRESSIBLEMASK - Word.FILLBITMASK, 0x1234_5678_9ABC_DEFFul, 0x7FED_CBA9_8765_4321ul }
 #else
-                { Word.ONE, Word.FILLBITMASK, Word.COMPRESSIBLEMASK - Word.ONE, Word.COMPRESSIBLEMASK - Word.FILLBITMASK, 0x12345678u, 0x7FED_CBA9u }
+                     { Word.ONE, Word.FILLBITMASK, Word.COMPRESSIBLEMASK - Word.ONE, Word.COMPRESSIBLEMASK - Word.FILLBITMASK, 0x12345678u, 0x7FED_CBA9u }
 #endif
-            )
+                )
         {
             var word = new Word(wordValue);
             word.Compress();

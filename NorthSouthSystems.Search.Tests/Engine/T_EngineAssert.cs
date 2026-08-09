@@ -30,9 +30,9 @@ internal static class T_EngineAssert
     private static IEnumerable<T_EngineItem> SourceFilter(IEnumerable<T_EngineItem> source, Query<int> query)
     {
         foreach (var param in
-            query.FilterClause == null
-                ? []
-                : query.FilterClause.SubClauses.Cast<IFilterParameter>())
+                 query.FilterClause == null
+                     ? []
+                     : query.FilterClause.SubClauses.Cast<IFilterParameter>())
         {
             var closedParam = param;
 

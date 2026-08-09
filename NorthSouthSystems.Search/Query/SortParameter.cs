@@ -3,7 +3,7 @@
 public static class SortParameter
 {
     public static SortParameter<TKey> Create<TKey>(ICatalogHandle<TKey> catalog, bool ascending)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         new(catalog, ascending);
 
     internal static ISortParameter Create(IEngine engine, string catalogName, bool ascending) =>

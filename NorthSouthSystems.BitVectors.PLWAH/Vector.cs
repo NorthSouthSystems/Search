@@ -24,10 +24,12 @@ public sealed partial class Vector : IBitVector<Vector>
     #region Construction
 
     public Vector(bool isCompressed)
-        : this(isCompressed, null, 0) { }
+        : this(isCompressed, null, 0)
+    { }
 
     public Vector(bool isCompressed, Vector vector)
-        : this(isCompressed, vector, 0) { }
+        : this(isCompressed, vector, 0)
+    { }
 
     private Vector(bool isCompressed, Vector? vector, int wordsLengthHint)
     {
@@ -203,7 +205,7 @@ public sealed partial class Vector : IBitVector<Vector>
                 return word.PackedWord;
             else
 #endif
-            return new Word((word.FillBit && word.FillCount > 0) ? Word.COMPRESSIBLEMASK : Word.ZERO);
+                return new Word((word.FillBit && word.FillCount > 0) ? Word.COMPRESSIBLEMASK : Word.ZERO);
         }
         else
             return word;
@@ -286,7 +288,7 @@ public sealed partial class Vector : IBitVector<Vector>
 #if POSITIONLISTENABLED
                 && !word.HasPackedWord
 #endif
-                );
+            );
 
         if (isZero && ZeroFillCount(wordPositionLogical) > 0)
             return;
@@ -619,6 +621,7 @@ public sealed partial class Vector : IBitVector<Vector>
                 if (word.HasPackedWord)
                 {
                     yield return word.PackedPosition + bitPositionOffset;
+
                     bitPositionOffset += (Word.SIZE - 1);
                 }
 #endif

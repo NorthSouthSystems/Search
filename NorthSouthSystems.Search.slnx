@@ -1,30 +1,30 @@
 <Solution>
     <Folder Name="/ConditionalCompilationDerivatives/">
-        <Project Path="NorthSouthSystems.BitVectors.PLWAH64.Tests/NorthSouthSystems.BitVectors.PLWAH64.Tests.csproj" />
-        <Project Path="NorthSouthSystems.BitVectors.PLWAH64/NorthSouthSystems.BitVectors.PLWAH64.csproj" />
-        <Project Path="NorthSouthSystems.BitVectors.WAH.Tests/NorthSouthSystems.BitVectors.WAH.Tests.csproj" />
-        <Project Path="NorthSouthSystems.BitVectors.WAH/NorthSouthSystems.BitVectors.WAH.csproj" />
-        <Project Path="NorthSouthSystems.BitVectors.WAH64.Tests/NorthSouthSystems.BitVectors.WAH64.Tests.csproj" />
-        <Project Path="NorthSouthSystems.BitVectors.WAH64/NorthSouthSystems.BitVectors.WAH64.csproj" />
+        <Project Path="NorthSouthSystems.BitVectors.PLWAH64.Tests/NorthSouthSystems.BitVectors.PLWAH64.Tests.csproj"/>
+        <Project Path="NorthSouthSystems.BitVectors.PLWAH64/NorthSouthSystems.BitVectors.PLWAH64.csproj"/>
+        <Project Path="NorthSouthSystems.BitVectors.WAH.Tests/NorthSouthSystems.BitVectors.WAH.Tests.csproj"/>
+        <Project Path="NorthSouthSystems.BitVectors.WAH/NorthSouthSystems.BitVectors.WAH.csproj"/>
+        <Project Path="NorthSouthSystems.BitVectors.WAH64.Tests/NorthSouthSystems.BitVectors.WAH64.Tests.csproj"/>
+        <Project Path="NorthSouthSystems.BitVectors.WAH64/NorthSouthSystems.BitVectors.WAH64.csproj"/>
     </Folder>
     <Folder Name="/_/">
-        <File Path=".editorconfig" />
-        <File Path=".gitattributes" />
-        <File Path=".github/workflows/BuildTestAnalyze.yml" />
-        <File Path=".github/workflows/BuildTestPackagePublish.yml" />
-        <File Path=".gitignore" />
-        <File Path="Directory.Build.props" />
-        <File Path="Directory.Packages.props" />
-        <File Path="Icon.png" />
-        <File Path="LICENSE" />
-        <File Path="nuget.config" />
-        <File Path="version.json" />
+        <File Path=".editorconfig"/>
+        <File Path=".gitattributes"/>
+        <File Path=".github/workflows/BuildTestAnalyze.yml"/>
+        <File Path=".github/workflows/BuildTestPackagePublish.yml"/>
+        <File Path=".gitignore"/>
+        <File Path="Directory.Build.props"/>
+        <File Path="Directory.Packages.props"/>
+        <File Path="Icon.png"/>
+        <File Path="LICENSE"/>
+        <File Path="nuget.config"/>
+        <File Path="version.json"/>
     </Folder>
-    <Project Path="NorthSouthSystems.BitVectors.PLWAH.Tests/NorthSouthSystems.BitVectors.PLWAH.Tests.csproj" />
-    <Project Path="NorthSouthSystems.BitVectors.PLWAH/NorthSouthSystems.BitVectors.PLWAH.csproj" />
-    <Project Path="NorthSouthSystems.BitVectors.Tests/NorthSouthSystems.BitVectors.Tests.csproj" />
-    <Project Path="NorthSouthSystems.BitVectors/NorthSouthSystems.BitVectors.csproj" />
-    <Project Path="NorthSouthSystems.Search.Benchmarks/NorthSouthSystems.Search.Benchmarks.csproj" />
-    <Project Path="NorthSouthSystems.Search.Tests/NorthSouthSystems.Search.Tests.csproj" />
-    <Project Path="NorthSouthSystems.Search/NorthSouthSystems.Search.csproj" />
+    <Project Path="NorthSouthSystems.BitVectors.PLWAH.Tests/NorthSouthSystems.BitVectors.PLWAH.Tests.csproj"/>
+    <Project Path="NorthSouthSystems.BitVectors.PLWAH/NorthSouthSystems.BitVectors.PLWAH.csproj"/>
+    <Project Path="NorthSouthSystems.BitVectors.Tests/NorthSouthSystems.BitVectors.Tests.csproj"/>
+    <Project Path="NorthSouthSystems.BitVectors/NorthSouthSystems.BitVectors.csproj"/>
+    <Project Path="NorthSouthSystems.Search.Benchmarks/NorthSouthSystems.Search.Benchmarks.csproj"/>
+    <Project Path="NorthSouthSystems.Search.Tests/NorthSouthSystems.Search.Tests.csproj"/>
+    <Project Path="NorthSouthSystems.Search/NorthSouthSystems.Search.csproj"/>
 </Solution>

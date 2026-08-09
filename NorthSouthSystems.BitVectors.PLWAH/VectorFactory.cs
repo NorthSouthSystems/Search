@@ -17,7 +17,7 @@ public class WAH64VectorFactory
 #else
 public class WAHVectorFactory
 #endif
-     : IBitVectorFactory<Vector>
+    : IBitVectorFactory<Vector>
 {
     public Vector Create(bool isCompressed) =>
         new(isCompressed);

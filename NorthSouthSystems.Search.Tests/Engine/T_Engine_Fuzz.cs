@@ -14,7 +14,7 @@ public class T_Engine_Fuzz
             var random = new Random(randomSeed);
 
             foreach (int size in Enumerable.Range(1, bitVectorFactory.WordSize * 10)
-                .Where(i => i % (bitVectorFactory.WordSize - 1) == 1 || random.Next(i / 100) == 0))
+                         .Where(i => i % (bitVectorFactory.WordSize - 1) == 1 || random.Next(i / 100) == 0))
             {
                 using var engine = new Engine<TBitVector, T_EngineItem, int>(bitVectorFactory, item => item.Id);
 

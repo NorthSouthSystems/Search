@@ -19,18 +19,18 @@ public class T_Vector_Construction
         int[] fillCounts = [0, 1, 2, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 450, 460, 470, 480, 490, 495, 498, 499, 500];
 
         var instructions =
-             from sourceIsCompressed in new[] { false, true }
-             from resultIsCompressed in new[] { false, true }
-             from fillMaxBitPosition in fillMaxBitPositions
-             from fillCount in fillCounts
-             where fillCount <= fillMaxBitPosition + 1
-             select new
-             {
-                 SourceIsCompressed = sourceIsCompressed,
-                 ResultIsCompressed = resultIsCompressed,
-                 FillMaxBitPosition = fillMaxBitPosition,
-                 FillCount = fillCount
-             };
+            from sourceIsCompressed in new[] { false, true }
+            from resultIsCompressed in new[] { false, true }
+            from fillMaxBitPosition in fillMaxBitPositions
+            from fillCount in fillCounts
+            where fillCount <= fillMaxBitPosition + 1
+            select new
+            {
+                SourceIsCompressed = sourceIsCompressed,
+                ResultIsCompressed = resultIsCompressed,
+                FillMaxBitPosition = fillMaxBitPosition,
+                FillCount = fillCount
+            };
 
         foreach (var instruction in instructions)
         {

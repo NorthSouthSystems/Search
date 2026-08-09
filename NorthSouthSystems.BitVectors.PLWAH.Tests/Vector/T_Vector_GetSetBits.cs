@@ -1,9 +1,12 @@
 ﻿#if POSITIONLISTENABLED && WORDSIZE64
 using NorthSouthSystems.BitVectors.PLWAH64;
+
 #elif POSITIONLISTENABLED
 using NorthSouthSystems.BitVectors.PLWAH;
+
 #elif WORDSIZE64
 using NorthSouthSystems.BitVectors.WAH64;
+
 #else
 using NorthSouthSystems.BitVectors.WAH;
 #endif
@@ -95,7 +98,7 @@ public class T_Vector_GetSetBits
         /*
         Action act;
         WordRawType bitPosition;
-        
+
         act = () => bitPosition = (Word.FILLCOUNTMASK + 1) * (Word.SIZE - 1);
         act.Should().ThrowExactly<OverflowException>();
         */

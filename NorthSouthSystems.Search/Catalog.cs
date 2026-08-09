@@ -289,7 +289,7 @@ internal interface ICatalogInEngine : ICatalogHandle
     IFacetParameterInternal CreateFacetParameter();
 }
 
-public interface ICatalogHandle<TKey> : ICatalogHandle { }
+public interface ICatalogHandle<TKey> : ICatalogHandle;
 
 public interface ICatalogHandle
 {

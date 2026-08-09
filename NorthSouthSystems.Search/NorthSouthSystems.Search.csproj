@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors\NorthSouthSystems.BitVectors.csproj" />
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors\NorthSouthSystems.BitVectors.csproj"/>
     </ItemGroup>
 
 </Project>

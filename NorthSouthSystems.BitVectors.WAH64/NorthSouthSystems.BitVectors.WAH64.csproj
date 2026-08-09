@@ -11,14 +11,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors\NorthSouthSystems.BitVectors.csproj" />
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors\NorthSouthSystems.BitVectors.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\Vector.cs" Link="Vector.cs" />
-        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\VectorFactory.cs" Link="VectorFactory.cs" />
-        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\VectorOperations.cs" Link="VectorOperations.cs" />
-        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\Word.cs" Link="Word.cs" />
+        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\Vector.cs" Link="Vector.cs"/>
+        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\VectorFactory.cs" Link="VectorFactory.cs"/>
+        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\VectorOperations.cs" Link="VectorOperations.cs"/>
+        <Compile Include="..\NorthSouthSystems.BitVectors.PLWAH\Word.cs" Link="Word.cs"/>
     </ItemGroup>
 
 </Project>

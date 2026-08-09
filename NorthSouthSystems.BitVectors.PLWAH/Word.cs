@@ -1,5 +1,6 @@
 ﻿#if WORDSIZE64
 global using WordRawType = ulong;
+
 #else
 global using WordRawType = uint;
 #endif
@@ -177,7 +178,6 @@ internal struct Word
     #region Packing
 
 #if POSITIONLISTENABLED
-
     internal const WordRawType PACKEDPOSITIONMASK = ((WordRawType)(SIZE - 1)) << (SIZE - 2 - PACKEDPOSITIONSIZE);
 
     public readonly bool HasPackedWord => IsCompressed && (Raw & PACKEDPOSITIONMASK) > ZERO;

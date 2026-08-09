@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors.PLWAH\NorthSouthSystems.BitVectors.PLWAH.csproj" />
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors.PLWAH\NorthSouthSystems.BitVectors.PLWAH.csproj"/>
     </ItemGroup>
 
 </Project>

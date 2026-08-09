@@ -1,11 +1,11 @@
 ﻿internal class T_EngineItem
 {
     internal static T_EngineItem[] CreateItems(
-            Func<int, int> someIntGenerator,
-            Func<int, DateTime> someDateTimeGenerator,
-            Func<int, string> someStringGenerator,
-            Func<int, string[]> someTagGenerator,
-            int count) =>
+        Func<int, int> someIntGenerator,
+        Func<int, DateTime> someDateTimeGenerator,
+        Func<int, string> someStringGenerator,
+        Func<int, string[]> someTagGenerator,
+        int count) =>
         Enumerable.Range(0, count)
             .Select(id =>
                 new T_EngineItem

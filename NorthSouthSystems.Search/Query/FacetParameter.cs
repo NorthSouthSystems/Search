@@ -3,7 +3,7 @@
 public static class FacetParameter
 {
     public static FacetParameter<TKey> Create<TKey>(ICatalogHandle<TKey> catalog)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         new(catalog);
 
     internal static IFacetParameter Create(IEngine engine, string catalogName) =>

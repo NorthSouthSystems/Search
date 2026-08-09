@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="NorthSouthSystems.Opinions.StackExchange" />
+        <PackageReference Include="NorthSouthSystems.Opinions.StackExchange"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors.PLWAH\NorthSouthSystems.BitVectors.PLWAH.csproj" />
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors.PLWAH64\NorthSouthSystems.BitVectors.PLWAH64.csproj" />
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors.WAH\NorthSouthSystems.BitVectors.WAH.csproj" />
-        <ProjectReference Include="..\NorthSouthSystems.BitVectors.WAH64\NorthSouthSystems.BitVectors.WAH64.csproj" />
-        <ProjectReference Include="..\NorthSouthSystems.Search\NorthSouthSystems.Search.csproj" />
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors.PLWAH\NorthSouthSystems.BitVectors.PLWAH.csproj"/>
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors.PLWAH64\NorthSouthSystems.BitVectors.PLWAH64.csproj"/>
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors.WAH\NorthSouthSystems.BitVectors.WAH.csproj"/>
+        <ProjectReference Include="..\NorthSouthSystems.BitVectors.WAH64\NorthSouthSystems.BitVectors.WAH64.csproj"/>
+        <ProjectReference Include="..\NorthSouthSystems.Search\NorthSouthSystems.Search.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="NorthSouthSystems" />
-        <Using Include="NorthSouthSystems.Search" />
+        <Using Include="NorthSouthSystems"/>
+        <Using Include="NorthSouthSystems.Search"/>
     </ItemGroup>
 
 </Project>

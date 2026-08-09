@@ -47,11 +47,11 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
     #region Catalog Management
 
     public ICatalogHandle<TKey> CreateCatalog<TKey>(string name, Func<TItem, TKey> keyExtractor)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         CreateCatalogImpl<TKey>(name, true, item => (object)keyExtractor(item));
 
     public ICatalogHandle<TKey> CreateCatalog<TKey>(string name, Func<TItem, IEnumerable<TKey>> keysExtractor)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         CreateCatalogImpl<TKey>(name, false, item => (object)keysExtractor(item));
 
     private Catalog<TBitVector, TKey> CreateCatalogImpl<TKey>(string name, bool isOneToOne, Func<TItem, object> keyOrKeysExtractor)
@@ -365,7 +365,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
             // Distinct is required because of Catalogs created from multi-key columns: e.g. think post/blog tags
             return
             [
-                ..Sort(query, skip + take, result, totalCount)
+                .. Sort(query, skip + take, result, totalCount)
                     .Distinct()
                     .Skip(skip)
                     .Take(take)
@@ -392,9 +392,9 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
             // QuickSort O(n log n).  However, we are already in an n sized loop so resizing  which
             // costs n each time could theoretically cost us O(n^2).
             foreach (int bitPosition in amongstPrimaryKeys
-                .Select(primaryKey => _primaryKeyToActiveBitPositionMap.GetValueOrDefault(primaryKey, -1))
-                .Where(position => position >= 0)
-                .OrderByDescending(position => position))
+                         .Select(primaryKey => _primaryKeyToActiveBitPositionMap.GetValueOrDefault(primaryKey, -1))
+                         .Where(position => position >= 0)
+                         .OrderByDescending(position => position))
             {
                 result[bitPosition] = true;
             }

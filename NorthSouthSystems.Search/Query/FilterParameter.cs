@@ -5,15 +5,15 @@ using System.Collections;
 public static class FilterParameter
 {
     public static FilterParameter<TKey> Create<TKey>(ICatalogHandle<TKey> catalog, TKey exact)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         new(catalog, exact);
 
     public static FilterParameter<TKey> Create<TKey>(ICatalogHandle<TKey> catalog, IEnumerable<TKey> enumerable)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         new(catalog, enumerable);
 
     public static FilterParameter<TKey> Create<TKey>(ICatalogHandle<TKey> catalog, TKey rangeMin, TKey rangeMax)
-            where TKey : IEquatable<TKey>, IComparable<TKey> =>
+        where TKey : IEquatable<TKey>, IComparable<TKey> =>
         new(catalog, rangeMin, rangeMax);
 
     internal static IFilterParameter Create(IEngine engine, string catalogName, object exact) =>
