@@ -26,8 +26,11 @@ public class T_Vector_AndOutOfPlace
     {
         const int randomSeed = 22;
 
-        T_VectorHelpersForRandomTests.LogicOutOfPlaceBase(randomSeed, (Word.SIZE - 1) * T_WordExtensionsForTests.WORDCOUNTFORRANDOMTESTS + 1,
-            leftIsCompressed, rightIsCompressed,
+        T_VectorHelpersForRandomTests.LogicOutOfPlaceBase(
+            randomSeed,
+            (Word.SIZE - 1) * T_WordExtensionsForTests.WORDCOUNTFORRANDOMTESTS + 1,
+            leftIsCompressed,
+            rightIsCompressed,
             (left, right) => left.AndOutOfPlace(right, resultIsCompressed),
             Enumerable.Intersect);
     }

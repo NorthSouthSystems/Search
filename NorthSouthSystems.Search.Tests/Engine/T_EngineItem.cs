@@ -18,8 +18,14 @@
                 })
             .ToArray();
 
-    internal static T_EngineItem[] CreateItems(Random random, int count,
-        out int someIntMax, out int someDateTimeMax, out int someStringMax, out int someTagsMax, out int someTagsMaxCount)
+    internal static T_EngineItem[] CreateItems(
+        Random random,
+        int count,
+        out int someIntMax,
+        out int someDateTimeMax,
+        out int someStringMax,
+        out int someTagsMax,
+        out int someTagsMaxCount)
     {
         // Cannot create closures around 'out' parameters.
         int closableSomeIntMax = someIntMax = Math.Max(random.Next(count), 1);

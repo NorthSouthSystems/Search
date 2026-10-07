@@ -23,8 +23,14 @@ public class T_Engine_Fuzz
                 var someStringCatalog = engine.CreateCatalog("SomeString", item => item.SomeString);
                 var someTagsCatalog = engine.CreateCatalog<string>("SomeTags", item => item.SomeTags);
 
-                var items = T_EngineItem.CreateItems(random, size,
-                    out int someIntMax, out int someDateTimeMax, out int someStringMax, out int someTagsMax, out int someTagsMaxCount);
+                var items = T_EngineItem.CreateItems(
+                    random,
+                    size,
+                    out int someIntMax,
+                    out int someDateTimeMax,
+                    out int someStringMax,
+                    out int someTagsMax,
+                    out int someTagsMaxCount);
 
                 // OrderBy the lowest potential cardinality (max represents the potential cardinality) so that we increase our chances of having
                 // compressed 1's in a Catalog.
@@ -50,67 +56,119 @@ public class T_Engine_Fuzz
                 {
                     ExecuteAndAssert(random, items, engine.CreateQuery());
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Amongst(items.Take((items.Length / 2) + random.Next(items.Length / 2)).Select(item => item.Id)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Amongst(
+                                items.Take(items.Length / 2 + random.Next(items.Length / 2)).Select(item => item.Id)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterExactParameter(someIntCatalog, random, someIntMax)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(engine.CreateRandomFilterExactParameter(someIntCatalog, random, someIntMax)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Sort(SortParameter.Create(someIntCatalog, random.Next() % 2 == 0)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Sort(SortParameter.Create(someIntCatalog, random.Next() % 2 == 0)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .SortPrimaryKey(random.Next() % 2 == 0));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .SortPrimaryKey(random.Next() % 2 == 0));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterExactParameter(someIntCatalog, random, someIntMax))
-                        .Sort(SortParameter.Create(someStringCatalog, random.Next() % 2 == 0)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(engine.CreateRandomFilterExactParameter(someIntCatalog, random, someIntMax))
+                            .Sort(SortParameter.Create(someStringCatalog, random.Next() % 2 == 0)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterExactParameter(someIntCatalog, random, someIntMax))
-                        .SortPrimaryKey(random.Next() % 2 == 0));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(engine.CreateRandomFilterExactParameter(someIntCatalog, random, someIntMax))
+                            .SortPrimaryKey(random.Next() % 2 == 0));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterEnumerableParameter(someIntCatalog, random, someIntMax))
-                        .Sort(SortParameter.Create(engine, "SomeInt", random.Next() % 2 == 0)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(engine.CreateRandomFilterEnumerableParameter(someIntCatalog, random, someIntMax))
+                            .Sort(SortParameter.Create(engine, "SomeInt", random.Next() % 2 == 0)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax))
-                        .Sort(SortParameter.Create(someDateTimeCatalog, random.Next() % 2 == 0)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax))
+                            .Sort(SortParameter.Create(someDateTimeCatalog, random.Next() % 2 == 0)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterRangeParameter(someTagsCatalog, random, someTagsMax))
-                        .Sort(SortParameter.Create(engine, "SomeTags", random.Next() % 2 == 0)));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(engine.CreateRandomFilterRangeParameter(someTagsCatalog, random, someTagsMax))
+                            .Sort(SortParameter.Create(engine, "SomeTags", random.Next() % 2 == 0)));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterExactParameter(someStringCatalog, random, someStringMax)
-                            && engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax))
-                        .Sort(SortParameter.Create(someDateTimeCatalog, random.Next() % 2 == 0),
-                            SortParameter.Create(someIntCatalog, random.Next() % 2 == 0))
-                        .SortPrimaryKey(random.Next() % 2 == 0));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(
+                                engine.CreateRandomFilterExactParameter(someStringCatalog, random, someStringMax)
+                                && engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax))
+                            .Sort(
+                                SortParameter.Create(someDateTimeCatalog, random.Next() % 2 == 0),
+                                SortParameter.Create(someIntCatalog, random.Next() % 2 == 0))
+                            .SortPrimaryKey(random.Next() % 2 == 0));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterEnumerableParameter(someStringCatalog, random, someStringMax)
-                            && engine.CreateRandomFilterRangeParameter(someDateTimeCatalog, random, someDateTimeMax))
-                        .Sort(SortParameter.Create(engine, "SomeInt", random.Next() % 2 == 0),
-                            SortParameter.Create(engine, "SomeDateTime", random.Next() % 2 == 0))
-                        .SortPrimaryKey(random.Next() % 2 == 0));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(
+                                engine.CreateRandomFilterEnumerableParameter(someStringCatalog, random, someStringMax)
+                                && engine.CreateRandomFilterRangeParameter(
+                                    someDateTimeCatalog,
+                                    random,
+                                    someDateTimeMax))
+                            .Sort(
+                                SortParameter.Create(engine, "SomeInt", random.Next() % 2 == 0),
+                                SortParameter.Create(engine, "SomeDateTime", random.Next() % 2 == 0))
+                            .SortPrimaryKey(random.Next() % 2 == 0));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Amongst(items.Take((items.Length / 2) + random.Next(items.Length / 2)).Select(item => item.Id))
-                        .Filter(engine.CreateRandomFilterRangeParameter(someDateTimeCatalog, random, someDateTimeMax)
-                            && engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax))
-                        .Sort(SortParameter.Create(someStringCatalog, random.Next() % 2 == 0),
-                            SortParameter.Create(someDateTimeCatalog, random.Next() % 2 == 0))
-                        .SortPrimaryKey(random.Next() % 2 == 0));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Amongst(
+                                items.Take(items.Length / 2 + random.Next(items.Length / 2)).Select(item => item.Id))
+                            .Filter(
+                                engine.CreateRandomFilterRangeParameter(someDateTimeCatalog, random, someDateTimeMax)
+                                && engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax))
+                            .Sort(
+                                SortParameter.Create(someStringCatalog, random.Next() % 2 == 0),
+                                SortParameter.Create(someDateTimeCatalog, random.Next() % 2 == 0))
+                            .SortPrimaryKey(random.Next() % 2 == 0));
 
-                    ExecuteAndAssert(random, items, engine.CreateQuery()
-                        .Filter(engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax)
-                            && engine.CreateRandomFilterRangeParameter(someTagsCatalog, random, someTagsMax)
-                            && engine.CreateRandomFilterRangeParameter(someTagsCatalog, random, someTagsMax))
-                        .Sort(SortParameter.Create(engine, "SomeDateTime", random.Next() % 2 == 0),
-                            SortParameter.Create(engine, "SomeTags", random.Next() % 2 == 0))
-                        .SortPrimaryKey(random.Next() % 2 == 0));
+                    ExecuteAndAssert(
+                        random,
+                        items,
+                        engine.CreateQuery()
+                            .Filter(
+                                engine.CreateRandomFilterRangeParameter(someIntCatalog, random, someIntMax)
+                                && engine.CreateRandomFilterRangeParameter(someTagsCatalog, random, someTagsMax)
+                                && engine.CreateRandomFilterRangeParameter(someTagsCatalog, random, someTagsMax))
+                            .Sort(
+                                SortParameter.Create(engine, "SomeDateTime", random.Next() % 2 == 0),
+                                SortParameter.Create(engine, "SomeTags", random.Next() % 2 == 0))
+                            .SortPrimaryKey(random.Next() % 2 == 0));
 
                     if (random.Next() % 2 == 0)
                         items = Update(engine, items, random);
@@ -134,7 +192,10 @@ public class T_Engine_Fuzz
         T_EngineAssert.ExecuteAndAssert(items, query, 0, items.Length);
     }
 
-    private static T_EngineItem[] Update<TBitVector>(Engine<TBitVector, T_EngineItem, int> engine, T_EngineItem[] items, Random random)
+    private static T_EngineItem[] Update<TBitVector>(
+        Engine<TBitVector, T_EngineItem, int> engine,
+        T_EngineItem[] items,
+        Random random)
         where TBitVector : IBitVector<TBitVector>
     {
         var updateItems = items.OrderBy(item => item.GetHashCode())
@@ -153,7 +214,10 @@ public class T_Engine_Fuzz
             .ToArray();
     }
 
-    private static T_EngineItem[] RemoveReAdd<TBitVector>(Engine<TBitVector, T_EngineItem, int> engine, T_EngineItem[] items, Random random)
+    private static T_EngineItem[] RemoveReAdd<TBitVector>(
+        Engine<TBitVector, T_EngineItem, int> engine,
+        T_EngineItem[] items,
+        Random random)
         where TBitVector : IBitVector<TBitVector>
     {
         var removeItemsAsc = items.OrderBy(item => item.GetHashCode())

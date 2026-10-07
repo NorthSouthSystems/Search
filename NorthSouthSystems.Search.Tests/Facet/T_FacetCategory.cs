@@ -14,14 +14,14 @@
         (category1 != category2).Should().BeFalse();
         category2.GetHashCode().Should().Be(category1.GetHashCode());
 
-        category2 = new FacetCategory<int>(2, 1);
+        category2 = new(2, 1);
 
         category1.Equals(category2).Should().BeFalse();
         category1.Equals((object)category2).Should().BeFalse();
         (category1 == category2).Should().BeFalse();
         (category1 != category2).Should().BeTrue();
 
-        category2 = new FacetCategory<int>(1, 2);
+        category2 = new(1, 2);
 
         category1.Equals(category2).Should().BeFalse();
         category1.Equals((object)category2).Should().BeFalse();

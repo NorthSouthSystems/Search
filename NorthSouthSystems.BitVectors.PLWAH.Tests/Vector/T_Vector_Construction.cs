@@ -16,7 +16,8 @@ public class T_Vector_Construction
     public void ConstructCopy()
     {
         int[] fillMaxBitPositions = [99, 499];
-        int[] fillCounts = [0, 1, 2, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 450, 460, 470, 480, 490, 495, 498, 499, 500];
+        int[] fillCounts =
+            [0, 1, 2, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 450, 460, 470, 480, 490, 495, 498, 499, 500];
 
         var instructions =
             from sourceIsCompressed in new[] { false, true }
@@ -44,7 +45,9 @@ public class T_Vector_Construction
 
             result.AssertBitPositions(bitPositions);
 
-            var resultWords = (Word[])typeof(Vector).GetField("_words", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(result);
+            var resultWords =
+                (Word[])typeof(Vector).GetField("_words", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .GetValue(result);
 
             if (!instruction.ResultIsCompressed)
                 resultWords.Any(word => word.IsCompressed).Should().BeFalse();

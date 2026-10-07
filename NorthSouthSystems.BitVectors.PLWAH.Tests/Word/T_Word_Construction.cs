@@ -17,7 +17,7 @@ public class T_Word_Construction
     public void Bounds()
     {
         var word = new Word(Word.ZERO);
-        word = new Word(Word.COMPRESSEDMASK - Word.ONE);
+        word = new(Word.COMPRESSEDMASK - Word.ONE);
     }
 
     [Fact]
@@ -27,23 +27,23 @@ public class T_Word_Construction
         word.FillBit.Should().BeFalse();
         word.FillCount.Should().Be(0);
 
-        word = new Word(false, 1);
+        word = new(false, 1);
         word.FillBit.Should().BeFalse();
         word.FillCount.Should().Be(1);
 
-        word = new Word(false, 22);
+        word = new(false, 22);
         word.FillBit.Should().BeFalse();
         word.FillCount.Should().Be(22);
 
-        word = new Word(true, 0);
+        word = new(true, 0);
         word.FillBit.Should().BeTrue();
         word.FillCount.Should().Be(0);
 
-        word = new Word(true, 1);
+        word = new(true, 1);
         word.FillBit.Should().BeTrue();
         word.FillCount.Should().Be(1);
 
-        word = new Word(true, 22);
+        word = new(true, 22);
         word.FillBit.Should().BeTrue();
         word.FillCount.Should().Be(22);
     }

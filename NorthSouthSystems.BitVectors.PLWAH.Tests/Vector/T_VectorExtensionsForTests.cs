@@ -14,19 +14,25 @@ internal static class T_VectorExtensionsForTests
 {
     #region Assert
 
-    internal static void AssertWordCounts(this Vector vector, int expectedWordCountPhysical, int expectedWordCountLogical)
+    internal static void AssertWordCounts(
+        this Vector vector,
+        int expectedWordCountPhysical,
+        int expectedWordCountLogical)
     {
         ((int)_wordCountPhysicalField.GetValue(vector)).Should().Be(expectedWordCountPhysical);
         ((int)_wordCountLogicalField.GetValue(vector)).Should().Be(expectedWordCountLogical);
     }
 
-    private static readonly FieldInfo _wordCountPhysicalField = typeof(Vector).GetField("_wordCountPhysical", BindingFlags.Instance | BindingFlags.NonPublic);
-    private static readonly FieldInfo _wordCountLogicalField = typeof(Vector).GetField("_wordCountLogical", BindingFlags.Instance | BindingFlags.NonPublic);
+    private static readonly FieldInfo _wordCountPhysicalField =
+        typeof(Vector).GetField("_wordCountPhysical", BindingFlags.Instance | BindingFlags.NonPublic);
+
+    private static readonly FieldInfo _wordCountLogicalField =
+        typeof(Vector).GetField("_wordCountLogical", BindingFlags.Instance | BindingFlags.NonPublic);
 
     internal static void AssertWordLogicalValues(this Vector vector, params uint[] expectedWordLogicalValues)
     {
         for (int i = 0; i < expectedWordLogicalValues.Length; i++)
-            vector.GetWordLogical(i).Raw.Should().Be(expectedWordLogicalValues[i], because: "i=" + i.ToString());
+            vector.GetWordLogical(i).Raw.Should().Be(expectedWordLogicalValues[i], "i=" + i.ToString());
     }
 
     internal static void AssertBitPositions(this Vector vector, params IEnumerable<int>[] expectedBitPositionses)

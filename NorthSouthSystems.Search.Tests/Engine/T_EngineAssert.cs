@@ -53,9 +53,11 @@ internal static class T_EngineAssert
     private static bool SourceFilter(object column, IFilterParameter param) =>
         param.ParameterType switch
         {
-            FilterParameterType.Exact => object.Equals(column, param.Exact),
-            FilterParameterType.Enumerable => ((IEnumerable)param.Enumerable).Cast<object>().Any(obj => object.Equals(column, obj)),
-            FilterParameterType.Range => ((IComparable)column).CompareTo(param.RangeMin) >= 0 && ((IComparable)column).CompareTo(param.RangeMax) <= 0,
+            FilterParameterType.Exact => Equals(column, param.Exact),
+            FilterParameterType.Enumerable => ((IEnumerable)param.Enumerable).Cast<object>()
+                .Any(obj => Equals(column, obj)),
+            FilterParameterType.Range => ((IComparable)column).CompareTo(param.RangeMin) >= 0
+                && ((IComparable)column).CompareTo(param.RangeMax) <= 0,
 
             _ => throw new NotImplementedException()
         };
@@ -76,32 +78,56 @@ internal static class T_EngineAssert
                 sortedSource = SourceSort(sortedSource, query.SortParameters.ToArray()[i]);
 
             if (query.SortPrimaryKeyAscending.HasValue)
-                return query.SortPrimaryKeyAscending.Value ? sortedSource.ThenBy(item => item.Id) : sortedSource.ThenByDescending(item => item.Id);
+                return query.SortPrimaryKeyAscending.Value
+                    ? sortedSource.ThenBy(item => item.Id)
+                    : sortedSource.ThenByDescending(item => item.Id);
             else
                 return sortedSource;
         }
         else
-            return query.SortPrimaryKeyAscending.Value ? source.OrderBy(item => item.Id) : source.OrderByDescending(item => item.Id);
+            return query.SortPrimaryKeyAscending.Value
+                ? source.OrderBy(item => item.Id)
+                : source.OrderByDescending(item => item.Id);
     }
 
-    private static IOrderedEnumerable<T_EngineItem> SourceSort(IEnumerable<T_EngineItem> source, ISortParameter param) =>
+    private static IOrderedEnumerable<T_EngineItem> SourceSort(
+        IEnumerable<T_EngineItem> source,
+        ISortParameter param) =>
         param.Catalog.Name switch
         {
-            "SomeInt" => param.Ascending ? source.OrderBy(item => item.SomeInt) : source.OrderByDescending(item => item.SomeInt),
-            "SomeDateTime" => param.Ascending ? source.OrderBy(item => item.SomeDateTime) : source.OrderByDescending(item => item.SomeDateTime),
-            "SomeString" => param.Ascending ? source.OrderBy(item => item.SomeString) : source.OrderByDescending(item => item.SomeString),
-            "SomeTags" => param.Ascending ? source.OrderBy(item => item.SomeTags.Min()) : source.OrderByDescending(item => item.SomeTags.Max()),
+            "SomeInt" => param.Ascending
+                ? source.OrderBy(item => item.SomeInt)
+                : source.OrderByDescending(item => item.SomeInt),
+            "SomeDateTime" => param.Ascending
+                ? source.OrderBy(item => item.SomeDateTime)
+                : source.OrderByDescending(item => item.SomeDateTime),
+            "SomeString" => param.Ascending
+                ? source.OrderBy(item => item.SomeString)
+                : source.OrderByDescending(item => item.SomeString),
+            "SomeTags" => param.Ascending
+                ? source.OrderBy(item => item.SomeTags.Min())
+                : source.OrderByDescending(item => item.SomeTags.Max()),
 
             _ => throw new NotImplementedException(param.Catalog.Name)
         };
 
-    private static IOrderedEnumerable<T_EngineItem> SourceSort(IOrderedEnumerable<T_EngineItem> source, ISortParameter param) =>
+    private static IOrderedEnumerable<T_EngineItem> SourceSort(
+        IOrderedEnumerable<T_EngineItem> source,
+        ISortParameter param) =>
         param.Catalog.Name switch
         {
-            "SomeInt" => param.Ascending ? source.ThenBy(item => item.SomeInt) : source.ThenByDescending(item => item.SomeInt),
-            "SomeDateTime" => param.Ascending ? source.ThenBy(item => item.SomeDateTime) : source.ThenByDescending(item => item.SomeDateTime),
-            "SomeString" => param.Ascending ? source.ThenBy(item => item.SomeString) : source.ThenByDescending(item => item.SomeString),
-            "SomeTags" => param.Ascending ? source.ThenBy(item => item.SomeTags.Min()) : source.ThenByDescending(item => item.SomeTags.Max()),
+            "SomeInt" => param.Ascending
+                ? source.ThenBy(item => item.SomeInt)
+                : source.ThenByDescending(item => item.SomeInt),
+            "SomeDateTime" => param.Ascending
+                ? source.ThenBy(item => item.SomeDateTime)
+                : source.ThenByDescending(item => item.SomeDateTime),
+            "SomeString" => param.Ascending
+                ? source.ThenBy(item => item.SomeString)
+                : source.ThenByDescending(item => item.SomeString),
+            "SomeTags" => param.Ascending
+                ? source.ThenBy(item => item.SomeTags.Min())
+                : source.ThenByDescending(item => item.SomeTags.Max()),
 
             _ => throw new NotImplementedException(param.Catalog.Name)
         };
@@ -110,7 +136,10 @@ internal static class T_EngineAssert
 
     #region Facet
 
-    private static void AssertFacet(T_EngineItem[] sourceResults, IFacetParameterInternal param, bool shortCircuitCounting)
+    private static void AssertFacet(
+        T_EngineItem[] sourceResults,
+        IFacetParameterInternal param,
+        bool shortCircuitCounting)
     {
         switch (param.Catalog.Name)
         {
@@ -176,7 +205,10 @@ internal static class T_EngineAssert
         }
     }
 
-    private static void AssertFacet<T>(this FacetCategory<T>[] categories, FacetCategory<T>[] compare, bool shortCircuitCounting)
+    private static void AssertFacet<T>(
+        this FacetCategory<T>[] categories,
+        FacetCategory<T>[] compare,
+        bool shortCircuitCounting)
         where T : IEquatable<T>, IComparable<T>
     {
         compare.Length.Should().Be(categories.Length);

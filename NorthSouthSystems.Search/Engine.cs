@@ -54,7 +54,10 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         where TKey : IEquatable<TKey>, IComparable<TKey> =>
         CreateCatalogImpl<TKey>(name, false, item => (object)keysExtractor(item));
 
-    private Catalog<TBitVector, TKey> CreateCatalogImpl<TKey>(string name, bool isOneToOne, Func<TItem, object> keyOrKeysExtractor)
+    private Catalog<TBitVector, TKey> CreateCatalogImpl<TKey>(
+        string name,
+        bool isOneToOne,
+        Func<TItem, object> keyOrKeysExtractor)
         where TKey : IEquatable<TKey>, IComparable<TKey>
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -67,13 +70,18 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
             _rwLock.EnterWriteLock();
 
             if (!_configuring)
-                throw new NotSupportedException("Cannot create a Catalog in an Engine that has already called Add or CreateQuery.");
+                throw new NotSupportedException(
+                    "Cannot create a Catalog in an Engine that has already called Add or CreateQuery.");
 
             if (_catalogsPlusExtractors.Any(cpe => cpe.Catalog.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "A Catalog already exists with the case-insensitive name : {0}.", name));
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "A Catalog already exists with the case-insensitive name : {0}.",
+                        name));
 
-            catalog = new Catalog<TBitVector, TKey>(_bitVectorFactory, name, isOneToOne);
-            _catalogsPlusExtractors.Add(new CatalogPlusExtractor(catalog, keyOrKeysExtractor));
+            catalog = new(_bitVectorFactory, name, isOneToOne);
+            _catalogsPlusExtractors.Add(new(catalog, keyOrKeysExtractor));
         }
         finally
         {
@@ -89,12 +97,14 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
 
     IEnumerable<ICatalogInEngine> IEngine.GetCatalogs() => GetCatalogs();
 
-    internal IEnumerable<ICatalogInEngine<TBitVector>> GetCatalogs() => _catalogsPlusExtractors.Select(cpe => cpe.Catalog);
+    internal IEnumerable<ICatalogInEngine<TBitVector>> GetCatalogs() =>
+        _catalogsPlusExtractors.Select(cpe => cpe.Catalog);
 
     ICatalogInEngine IEngine.GetCatalog(string name) => GetCatalog(name);
 
     internal ICatalogInEngine<TBitVector> GetCatalog(string name) =>
-        _catalogsPlusExtractors.Single(cpe => cpe.Catalog.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).Catalog;
+        _catalogsPlusExtractors.Single(cpe => cpe.Catalog.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+            .Catalog;
 
     #endregion
 
@@ -113,9 +123,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
             foreach (bool bit in _activeItems.Bits)
             {
                 if (bit)
-                {
                     bitPositionShifts[index] = exclusionCounter;
-                }
                 else
                 {
                     bitPositionShifts[index] = -1;
@@ -136,13 +144,16 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
 
             var readActions = new List<Action>();
             readActions.Add(() => _activeItems.OptimizeReadPhase(bitPositionShifts, out optimizedActiveItems));
-            readActions.AddRange(_catalogsPlusExtractors.Select(cpe => new Action(() => cpe.Catalog.OptimizeReadPhase(bitPositionShifts))));
+            readActions.AddRange(
+                _catalogsPlusExtractors.Select(cpe =>
+                    new Action(() => cpe.Catalog.OptimizeReadPhase(bitPositionShifts))));
 
             Parallel.Invoke(readActions.ToArray());
 
             var writeActions = new List<Action>();
             writeActions.Add(() => OptimizePrimaryKeys(bitPositionShifts));
-            writeActions.AddRange(_catalogsPlusExtractors.Select(cpe => new Action(() => cpe.Catalog.OptimizeWritePhase())));
+            writeActions.AddRange(
+                _catalogsPlusExtractors.Select(cpe => new Action(() => cpe.Catalog.OptimizeWritePhase())));
 
             _rwLock.EnterWriteLock();
 
@@ -170,7 +181,8 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         _primaryKeys = _primaryKeys.Where((primaryKey, bitPosition) => bitPositionShifts[bitPosition] >= 0)
             .ToList();
 
-        _primaryKeyToActiveBitPositionMap = _primaryKeys.Select((primaryKey, bitPosition) => new { PrimaryKey = primaryKey, BitPosition = bitPosition })
+        _primaryKeyToActiveBitPositionMap = _primaryKeys.Select((primaryKey, bitPosition) =>
+                new { PrimaryKey = primaryKey, BitPosition = bitPosition })
             .ToDictionary(pkbi => pkbi.PrimaryKey, pkbi => pkbi.BitPosition);
     }
 
@@ -218,7 +230,11 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         var primaryKey = _primaryKeyExtractor(item);
 
         if (_primaryKeyToActiveBitPositionMap.ContainsKey(primaryKey))
-            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "An item already exists in this Engine with the primary key : {0}.", primaryKey));
+            throw new ArgumentException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "An item already exists in this Engine with the primary key : {0}.",
+                    primaryKey));
 
         int bitPosition = _primaryKeys.Count;
         _primaryKeys.Add(primaryKey);
@@ -269,7 +285,11 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         var primaryKey = _primaryKeyExtractor(item);
 
         if (!_primaryKeyToActiveBitPositionMap.TryGetValue(primaryKey, out int fromBitPosition))
-            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "No item exists in this Engine with the primary key : {0}.", primaryKey));
+            throw new ArgumentException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "No item exists in this Engine with the primary key : {0}.",
+                    primaryKey));
 
         _activeItems[fromBitPosition] = false;
 
@@ -322,7 +342,11 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         var primaryKey = _primaryKeyExtractor(item);
 
         if (!_primaryKeyToActiveBitPositionMap.Remove(primaryKey, out int bitPosition))
-            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "No item exists in this Engine with the primary key : {0}.", primaryKey));
+            throw new ArgumentException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "No item exists in this Engine with the primary key : {0}.",
+                    primaryKey));
 
         _activeItems[bitPosition] = false;
     }
@@ -349,7 +373,11 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         return new(this);
     }
 
-    ImmutableArray<TPrimaryKey> IEngine<TPrimaryKey>.ExecuteQuery(Query<TPrimaryKey> query, int skip, int take, out int totalCount)
+    ImmutableArray<TPrimaryKey> IEngine<TPrimaryKey>.ExecuteQuery(
+        Query<TPrimaryKey> query,
+        int skip,
+        int take,
+        out int totalCount)
     {
         try
         {
@@ -395,9 +423,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
                          .Select(primaryKey => _primaryKeyToActiveBitPositionMap.GetValueOrDefault(primaryKey, -1))
                          .Where(position => position >= 0)
                          .OrderByDescending(position => position))
-            {
                 result[bitPosition] = true;
-            }
         }
         else
             result = _bitVectorFactory.Create(false, _activeItems);
@@ -409,8 +435,12 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
     {
         // TODO : Support for nested boolean logic.
         Trace.Assert(query.FilterClause == null || query.FilterClause.Operation == BooleanOperation.And);
-        Trace.Assert(query.FilterClause == null || query.FilterClause.SubClauses.All(clause => clause is IFilterParameter));
-        var filterParameters = query.FilterClause == null ? Enumerable.Empty<IFilterParameter>() : query.FilterClause.SubClauses.Cast<IFilterParameter>();
+        Trace.Assert(
+            query.FilterClause == null || query.FilterClause.SubClauses.All(clause => clause is IFilterParameter));
+        var filterParameters =
+            query.FilterClause == null
+                ? Enumerable.Empty<IFilterParameter>()
+                : query.FilterClause.SubClauses.Cast<IFilterParameter>();
 
         foreach (var filterParameter in filterParameters)
         {
@@ -428,14 +458,24 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
                     catalog.FilterRange(result, filterParameter.RangeMin, filterParameter.RangeMax);
                     break;
                 default:
-                    throw new NotImplementedException(string.Format(CultureInfo.InvariantCulture, "Unrecognized filter parameter type : {0}.", filterParameter.ParameterType));
+                    throw new NotImplementedException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            "Unrecognized filter parameter type : {0}.",
+                            filterParameter.ParameterType));
             }
         }
     }
 
     private static void Facet(Query<TPrimaryKey> query, TBitVector filterResult) =>
-        Parallel.ForEach(query.FacetParametersInternal, new ParallelOptions { MaxDegreeOfParallelism = query.FacetDisableParallel ? 1 : -1 },
-            facetParameter => facetParameter.Facet = ((ICatalogInEngine<TBitVector>)facetParameter.Catalog).Facet(filterResult, query.FacetDisableParallel, query.FacetShortCircuitCounting));
+        Parallel.ForEach(
+            query.FacetParametersInternal,
+            new() { MaxDegreeOfParallelism = query.FacetDisableParallel ? 1 : -1 },
+            facetParameter => facetParameter.Facet =
+                ((ICatalogInEngine<TBitVector>)facetParameter.Catalog).Facet(
+                    filterResult,
+                    query.FacetDisableParallel,
+                    query.FacetShortCircuitCounting));
 
     private IEnumerable<int> Sort(Query<TPrimaryKey> query, int skipPlusTake, TBitVector filterResult, int totalCount)
     {
@@ -450,21 +490,35 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
             {
                 // Disable parallel sorting if the user has specified to do so or if this is the last sort and we aren't going to have to iterate the entire result.
                 var sortParameter = sortParameters[sortParameterIndex];
-                bool sortDisableParallel = query.SortDisableParallel || (sortCount == (sortParameterIndex + 1) && skipPlusTake < totalCount);
+                bool sortDisableParallel =
+                    query.SortDisableParallel || (sortCount == sortParameterIndex + 1 && skipPlusTake < totalCount);
 
                 if (sortParameterIndex == 0)
-                    sortResult = ((ICatalogInEngine<TBitVector>)sortParameter.Catalog).Sort(filterResult, true, sortParameter.Ascending, sortDisableParallel);
+                    sortResult = ((ICatalogInEngine<TBitVector>)sortParameter.Catalog).Sort(
+                        filterResult,
+                        true,
+                        sortParameter.Ascending,
+                        sortDisableParallel);
                 else
-                    sortResult = ((ICatalogInEngine<TBitVector>)sortParameter.Catalog).ThenSort(sortResult, true, sortParameter.Ascending, sortDisableParallel);
+                    sortResult = ((ICatalogInEngine<TBitVector>)sortParameter.Catalog).ThenSort(
+                        sortResult,
+                        true,
+                        sortParameter.Ascending,
+                        sortDisableParallel);
             }
 
             if (query.SortPrimaryKeyAscending.HasValue)
-                return sortResult.PartialSorts.SelectMany(partialSort => SortBitPositionsByPrimaryKey(partialSort.GetBitPositions(true), query.SortPrimaryKeyAscending.Value));
+                return sortResult.PartialSorts.SelectMany(partialSort =>
+                    SortBitPositionsByPrimaryKey(
+                        partialSort.GetBitPositions(true),
+                        query.SortPrimaryKeyAscending.Value));
             else
                 return sortResult.PartialSorts.SelectMany(partialSort => partialSort.GetBitPositions(true));
         }
         else if (query.SortPrimaryKeyAscending.HasValue)
-            return SortBitPositionsByPrimaryKey(filterResult.GetBitPositions(true), query.SortPrimaryKeyAscending.Value);
+            return SortBitPositionsByPrimaryKey(
+                filterResult.GetBitPositions(true),
+                query.SortPrimaryKeyAscending.Value);
         else
             return filterResult.GetBitPositions(true);
     }

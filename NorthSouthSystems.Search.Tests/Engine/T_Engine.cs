@@ -42,7 +42,13 @@ public class T_Engine
 
             var catalog1 = engine1.CreateCatalog("SomeInt", item => item.SomeInt);
 
-            engine1.Add(T_EngineItem.CreateItems(id => id, id => DateTime.Now, id => id.ToString(), id => Array.Empty<string>(), 1).Single());
+            engine1.Add(
+                T_EngineItem.CreateItems(
+                    id => id,
+                    id => DateTime.Now,
+                    id => id.ToString(),
+                    id => Array.Empty<string>(),
+                    1).Single());
 
             var catalog2 = engine1.CreateCatalog("SomeString", item => item.SomeString);
         };

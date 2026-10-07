@@ -56,7 +56,7 @@ public class T_Word_Population
     private void CompressedBase(bool fillBit, int fillCount)
     {
         var word = new Word(fillBit, fillCount);
-        word.Population.Should().Be(fillBit ? ((Word.SIZE - 1) * fillCount) : 0);
+        word.Population.Should().Be(fillBit ? (Word.SIZE - 1) * fillCount : 0);
     }
 
     [Fact]
@@ -65,10 +65,12 @@ public class T_Word_Population
         foreach (bool fillBit in new bool[] { false, true })
         {
             // This is only "full coverage" (it's psuedo anyways) when !WORDSIZE64.
-            for (int i = 0; i >= 0 && i <= (int)Math.Min(Word.FILLCOUNTMASK, int.MaxValue); i += T_WordExtensionsForTests.LARGEPRIME)
+            for (int i = 0;
+                 i >= 0 && i <= (int)Math.Min(Word.FILLCOUNTMASK, int.MaxValue);
+                 i += T_WordExtensionsForTests.LARGEPRIME)
             {
                 var word = new Word(fillBit, i);
-                word.Population.Should().Be(fillBit ? ((Word.SIZE - 1) * i) : 0, because: word.ToString());
+                word.Population.Should().Be(fillBit ? (Word.SIZE - 1) * i : 0, word.ToString());
             }
         }
     }
@@ -79,12 +81,12 @@ public class T_Word_Population
     {
         var word = new Word(false, 1);
         word.Population.Should().Be(0);
-        word.Pack(new Word(Word.ONE));
+        word.Pack(new(Word.ONE));
         word.Population.Should().Be(1);
 
-        word = new Word(true, 1);
+        word = new(true, 1);
         word.Population.Should().Be(Word.SIZE - 1);
-        word.Pack(new Word(Word.ONE));
+        word.Pack(new(Word.ONE));
         word.Population.Should().Be(Word.SIZE);
     }
 #endif

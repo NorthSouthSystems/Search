@@ -46,17 +46,17 @@ public class T_Vector_GetSetBits
         act = () =>
         {
             var vector = new Vector(true);
-            vector[(Word.SIZE - 1) - 1] = true;
-            vector[((Word.SIZE - 1) * 2) - 1] = true;
+            vector[Word.SIZE - 1 - 1] = true;
+            vector[(Word.SIZE - 1) * 2 - 1] = true;
         };
         act.Should().NotThrow(because: "SetBitSupportedForwardOnly");
 
         act = () =>
         {
             var vector = new Vector(true);
-            vector[(Word.SIZE - 1) - 1] = true;
-            vector[(Word.SIZE - 1)] = true;
-            vector[(Word.SIZE - 1) - 1] = true;
+            vector[Word.SIZE - 1 - 1] = true;
+            vector[Word.SIZE - 1] = true;
+            vector[Word.SIZE - 1 - 1] = true;
         };
         act.Should().ThrowExactly<NotSupportedException>(because: "SetBitNotSupportedForwardOnly");
 

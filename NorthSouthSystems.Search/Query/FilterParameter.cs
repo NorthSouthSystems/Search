@@ -30,7 +30,7 @@ public sealed class FilterParameter<TKey> : FilterClause, IFilterParameter
     where TKey : IEquatable<TKey>, IComparable<TKey>
 {
     internal FilterParameter(ICatalogHandle<TKey> catalog, TKey exact)
-        : this(catalog, FilterParameterType.Exact, exact: exact)
+        : this(catalog, FilterParameterType.Exact, exact)
     { }
 
     internal FilterParameter(ICatalogHandle<TKey> catalog, IEnumerable<TKey> enumerable)
@@ -41,8 +41,13 @@ public sealed class FilterParameter<TKey> : FilterClause, IFilterParameter
         : this(catalog, FilterParameterType.Range, rangeMin: rangeMin, rangeMax: rangeMax)
     { }
 
-    private FilterParameter(ICatalogHandle<TKey> catalog, FilterParameterType parameterType,
-        TKey? exact = default, IEnumerable<TKey>? enumerable = null, TKey? rangeMin = default, TKey? rangeMax = default)
+    private FilterParameter(
+        ICatalogHandle<TKey> catalog,
+        FilterParameterType parameterType,
+        TKey? exact = default,
+        IEnumerable<TKey>? enumerable = null,
+        TKey? rangeMin = default,
+        TKey? rangeMax = default)
     {
         if (parameterType == FilterParameterType.Range)
         {

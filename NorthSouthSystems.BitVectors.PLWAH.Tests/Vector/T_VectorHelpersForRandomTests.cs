@@ -13,9 +13,12 @@ using NorthSouthSystems.BitVectors.WAH;
 
 internal static class T_VectorHelpersForRandomTests
 {
-    internal static void LogicInPlaceBase(int randomSeed, int maxBitPosition,
+    internal static void LogicInPlaceBase(
+        int randomSeed,
+        int maxBitPosition,
         bool isCompressed,
-        Action<Vector, Vector> logic, Func<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>> expectedBitPositionCalculator)
+        Action<Vector, Vector> logic,
+        Func<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>> expectedBitPositionCalculator)
     {
         var templates = GenerateRandomVectorsFavorCompression(randomSeed, maxBitPosition);
 
@@ -28,14 +31,19 @@ internal static class T_VectorHelpersForRandomTests
 
                 logic(resultLeft, resultRight);
 
-                resultLeft.AssertBitPositions(expectedBitPositionCalculator(templateLeft.BitPositions, templateRight.BitPositions));
+                resultLeft.AssertBitPositions(
+                    expectedBitPositionCalculator(templateLeft.BitPositions, templateRight.BitPositions));
             }
         }
     }
 
-    internal static void LogicOutOfPlaceBase(int randomSeed, int maxBitPosition,
-        bool leftIsCompressed, bool rightIsCompressed,
-        Func<Vector, Vector, Vector> logic, Func<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>> expectedBitPositionCalculator)
+    internal static void LogicOutOfPlaceBase(
+        int randomSeed,
+        int maxBitPosition,
+        bool leftIsCompressed,
+        bool rightIsCompressed,
+        Func<Vector, Vector, Vector> logic,
+        Func<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>> expectedBitPositionCalculator)
     {
         var templates = GenerateRandomVectorsFavorCompression(randomSeed, maxBitPosition);
 
@@ -48,12 +56,15 @@ internal static class T_VectorHelpersForRandomTests
 
                 var result = logic(resultLeft, resultRight);
 
-                result.AssertBitPositions(expectedBitPositionCalculator(templateLeft.BitPositions, templateRight.BitPositions));
+                result.AssertBitPositions(
+                    expectedBitPositionCalculator(templateLeft.BitPositions, templateRight.BitPositions));
             }
         }
     }
 
-    private static (Vector Vector, IReadOnlyList<int> BitPositions)[] GenerateRandomVectorsFavorCompression(int randomSeed, int maxBitPosition)
+    private static (Vector Vector, IReadOnlyList<int> BitPositions)[] GenerateRandomVectorsFavorCompression(
+        int randomSeed,
+        int maxBitPosition)
     {
         var random = new Random(randomSeed);
 

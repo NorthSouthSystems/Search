@@ -12,7 +12,8 @@ public abstract class B_EngineBase<TBitVector>
 
         PostTypeCatalog = Engine.CreateCatalog(nameof(Post.PostTypeId), post => post.PostTypeId);
         CreationDateCatalog = Engine.CreateCatalog(nameof(Post.CreationDate), post => YearMonth(post.CreationDate));
-        LastActivityDateCatalog = Engine.CreateCatalog(nameof(Post.LastActivityDate), post => YearMonth(post.LastActivityDate));
+        LastActivityDateCatalog =
+            Engine.CreateCatalog(nameof(Post.LastActivityDate), post => YearMonth(post.LastActivityDate));
         ScoreCatalog = Engine.CreateCatalog(nameof(Post.Score), post => post.Score);
         ViewCountCatalog = Engine.CreateCatalog(nameof(Post.ViewCount), post => OneSigFig(post.ViewCount));
         OwnerUserIdCatalog = Engine.CreateCatalog(nameof(Post.OwnerUserId), post => post.OwnerUserId);
@@ -28,12 +29,14 @@ public abstract class B_EngineBase<TBitVector>
         int OneSigFig(int count)
         {
             for (int i = 1; i < _powersOfTen.Length; i++)
+            {
                 if (count < _powersOfTen[i])
                     return FloorToFactor(_powersOfTen[i - 1]);
+            }
 
             return FloorToFactor(_powersOfTen.Last());
 
-            int FloorToFactor(int factor) => (count / factor) * factor;
+            int FloorToFactor(int factor) => count / factor * factor;
         }
     }
 

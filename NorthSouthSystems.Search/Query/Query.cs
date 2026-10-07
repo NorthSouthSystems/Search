@@ -46,7 +46,7 @@ public sealed class Query<TPrimaryKey>
         if (FilterClause != null)
             throw new NotSupportedException("Filter may only be called once.");
 
-        foreach (var filterParameter in (filterClause == null ? [] : filterClause.AllFilterParameters()))
+        foreach (var filterParameter in filterClause == null ? [] : filterClause.AllFilterParameters())
             ThrowIfEngineMismatch(filterParameter.Catalog);
 
         FilterClause = filterClause;
@@ -148,7 +148,9 @@ public sealed class Query<TPrimaryKey>
     internal bool FacetDisableParallel { get; private set; }
     internal bool FacetShortCircuitCounting { get; private set; }
 
-    public Query<TPrimaryKey> WithFacetOptions(bool facetDisableParallel = false, bool facetShortCircuitCounting = false)
+    public Query<TPrimaryKey> WithFacetOptions(
+        bool facetDisableParallel = false,
+        bool facetShortCircuitCounting = false)
     {
         ThrowIfExecuted();
 

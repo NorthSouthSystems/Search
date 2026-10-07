@@ -20,7 +20,9 @@ public class T_Vector_AndInPlace
     {
         const int randomSeed = 22;
 
-        T_VectorHelpersForRandomTests.LogicInPlaceBase(randomSeed, (Word.SIZE - 1) * T_WordExtensionsForTests.WORDCOUNTFORRANDOMTESTS + 1,
+        T_VectorHelpersForRandomTests.LogicInPlaceBase(
+            randomSeed,
+            (Word.SIZE - 1) * T_WordExtensionsForTests.WORDCOUNTFORRANDOMTESTS + 1,
             isCompressed,
             (left, right) => left.AndInPlace(right),
             Enumerable.Intersect);

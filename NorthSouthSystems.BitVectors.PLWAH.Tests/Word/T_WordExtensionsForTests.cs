@@ -10,6 +10,7 @@ using NorthSouthSystems.BitVectors.PLWAH64;
 using NorthSouthSystems.BitVectors.PLWAH;
 #elif WORDSIZE64
 using NorthSouthSystems.BitVectors.WAH64;
+
 #else
 using NorthSouthSystems.BitVectors.WAH;
 #endif

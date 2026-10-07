@@ -82,7 +82,8 @@ public class T_Query
 
             var query = engine1.CreateQuery()
                 .Filter(FilterParameter.Create(catalog1, 1))
-                .Sort(SortParameter.Create(catalog1, true),
+                .Sort(
+                    SortParameter.Create(catalog1, true),
                     SortParameter.Create(catalog1, true));
         };
         act.Should().ThrowExactly<NotSupportedException>(because: "DuplicateSort");
@@ -105,7 +106,8 @@ public class T_Query
 
             var query = engine1.CreateQuery()
                 .Filter(FilterParameter.Create(catalog1, 1))
-                .Facet(FacetParameter.Create(catalog2),
+                .Facet(
+                    FacetParameter.Create(catalog2),
                     FacetParameter.Create(catalog2));
         };
         act.Should().ThrowExactly<NotSupportedException>(because: "DuplicateFacet");

@@ -43,7 +43,10 @@ internal struct Word
     public Word(WordRawType raw)
     {
         if (raw >= COMPRESSEDMASK)
-            throw new ArgumentOutOfRangeException(nameof(raw), raw, FormattableString.Invariant($"Must be < COMPRESSEDMASK : 0x{COMPRESSEDMASK:X}."));
+            throw new ArgumentOutOfRangeException(
+                nameof(raw),
+                raw,
+                FormattableString.Invariant($"Must be < COMPRESSEDMASK : 0x{COMPRESSEDMASK:X}."));
 
         Raw = raw;
     }
@@ -54,9 +57,12 @@ internal struct Word
             throw new ArgumentOutOfRangeException(nameof(fillCount), fillCount, "Must be >= 0.");
 
         if ((WordRawType)fillCount > FILLCOUNTMASK)
-            throw new ArgumentOutOfRangeException(nameof(fillCount), fillCount, FormattableString.Invariant($"Must be <= FILLCOUNTMASK : 0x{FILLCOUNTMASK:X}."));
+            throw new ArgumentOutOfRangeException(
+                nameof(fillCount),
+                fillCount,
+                FormattableString.Invariant($"Must be <= FILLCOUNTMASK : 0x{FILLCOUNTMASK:X}."));
 
-        var fillCountTyped = (WordRawType)fillCount;
+        WordRawType fillCountTyped = (WordRawType)fillCount;
 
         Raw = COMPRESSEDMASK | (fillBit ? FILLBITMASK : ZERO) | fillCountTyped;
     }
@@ -77,7 +83,7 @@ internal struct Word
             if (value)
                 Raw |= mask;
             else
-                Raw &= (~mask);
+                Raw &= ~mask;
         }
     }
 
@@ -90,7 +96,10 @@ internal struct Word
             throw new ArgumentOutOfRangeException(nameof(position), position, "Must be >= 0.");
 
         if (position >= SIZE - 1)
-            throw new ArgumentOutOfRangeException(nameof(position), position, FormattableString.Invariant($"Must be < SIZE - 1 : {SIZE - 1}."));
+            throw new ArgumentOutOfRangeException(
+                nameof(position),
+                position,
+                FormattableString.Invariant($"Must be < SIZE - 1 : {SIZE - 1}."));
 
         return FIRSTBITPOSITIONMASK >> position;
     }
@@ -170,7 +179,7 @@ internal struct Word
     public void Compress()
     {
         if (IsCompressible)
-            Raw = CompressibleFillBit ? (COMPRESSEDMASK + FILLBITMASK + 1) : (COMPRESSEDMASK + 1);
+            Raw = CompressibleFillBit ? COMPRESSEDMASK + FILLBITMASK + 1 : COMPRESSEDMASK + 1;
     }
 
     #endregion
@@ -178,7 +187,7 @@ internal struct Word
     #region Packing
 
 #if POSITIONLISTENABLED
-    internal const WordRawType PACKEDPOSITIONMASK = ((WordRawType)(SIZE - 1)) << (SIZE - 2 - PACKEDPOSITIONSIZE);
+    internal const WordRawType PACKEDPOSITIONMASK = (WordRawType)(SIZE - 1) << (SIZE - 2 - PACKEDPOSITIONSIZE);
 
     public readonly bool HasPackedWord => IsCompressed && (Raw & PACKEDPOSITIONMASK) > ZERO;
 
@@ -196,7 +205,8 @@ internal struct Word
         get
         {
             if (!HasPackedWord)
-                throw new NotSupportedException("Cannot retrieve the PackedPosition for a Word that does not contain a Packed Word.");
+                throw new NotSupportedException(
+                    "Cannot retrieve the PackedPosition for a Word that does not contain a Packed Word.");
 
             return (int)((Raw & PACKEDPOSITIONMASK) >> (SIZE - 2 - PACKEDPOSITIONSIZE)) - 1;
         }
@@ -207,9 +217,10 @@ internal struct Word
         get
         {
             if (!HasPackedWord)
-                throw new NotSupportedException("Cannot retrieve the PackedWord for a Word that does not contain a Packed Word.");
+                throw new NotSupportedException(
+                    "Cannot retrieve the PackedWord for a Word that does not contain a Packed Word.");
 
-            return new Word(ONE << (SIZE - 2 - PackedPosition));
+            return new(ONE << (SIZE - 2 - PackedPosition));
         }
     }
 
@@ -280,5 +291,5 @@ internal struct Word
 
     #endregion
 
-    public override readonly string ToString() => FormattableString.Invariant($"0x{Raw:X}");
+    public readonly override string ToString() => FormattableString.Invariant($"0x{Raw:X}");
 }

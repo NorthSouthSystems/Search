@@ -170,7 +170,7 @@ public sealed partial class Vector
             WordRawType word = iWords[i].Raw & jWords[j].Raw;
 
             if (word > Word.ZERO)
-                result.SetWord(i, new Word(word));
+                result.SetWord(i, new(word));
 
             i++;
             j++;
@@ -214,7 +214,7 @@ public sealed partial class Vector
                     WordRawType word = iWords[i].Raw & jWord.PackedWord.Raw;
 
                     if (word > Word.ZERO)
-                        result.SetWord(i, new Word(word));
+                        result.SetWord(i, new(word));
 
                     i++;
                 }
@@ -225,7 +225,7 @@ public sealed partial class Vector
                 WordRawType word = iWords[i].Raw & jWord.Raw;
 
                 if (word > Word.ZERO)
-                    result.SetWord(i, new Word(word));
+                    result.SetWord(i, new(word));
 
                 i++;
             }
@@ -285,9 +285,10 @@ public sealed partial class Vector
                             if (jWord.FillBit)
                             {
                                 int logical = Math.Max(iLogical, jLogical);
-                                int fillCount = Math.Min(iLogical + iWord.FillCount, jLogical + jWord.FillCount) - logical;
+                                int fillCount =
+                                    Math.Min(iLogical + iWord.FillCount, jLogical + jWord.FillCount) - logical;
 
-                                result.SetWord(logical, new Word(true, fillCount));
+                                result.SetWord(logical, new(true, fillCount));
                             }
 
                             if (jLogical + jWord.FillCount <= iLogical + iWord.FillCount)
@@ -326,14 +327,17 @@ public sealed partial class Vector
                         if (jUsePackedWord || !jWord.IsCompressed)
                         {
                             if (jLogical == iLogical)
-                                if ((iWord.PackedWord.Raw & (jUsePackedWord ? jWord.PackedWord.Raw : jWord.Raw)) > Word.ZERO)
+                            {
+                                if ((iWord.PackedWord.Raw & (jUsePackedWord ? jWord.PackedWord.Raw : jWord.Raw))
+                                    > Word.ZERO)
                                     result.SetWord(iLogical, iWord.PackedWord);
+                            }
 
                             jLogical++;
                         }
                         else
                         {
-                            if (jWord.FillBit && (jLogical + jWord.FillCount) > iLogical)
+                            if (jWord.FillBit && jLogical + jWord.FillCount > iLogical)
                                 result.SetWord(iLogical, iWord.PackedWord);
 
                             if (jLogical + jWord.FillCount <= iLogical + 1)
@@ -380,7 +384,7 @@ public sealed partial class Vector
 #endif
 
                             if (word > Word.ZERO)
-                                result.SetWord(iLogical, new Word(word));
+                                result.SetWord(iLogical, new(word));
                         }
 
                         jLogical++;
@@ -562,7 +566,8 @@ public sealed partial class Vector
                             if (jWord.FillBit)
                             {
                                 int logical = Math.Max(iLogical, jLogical);
-                                int fillCount = Math.Min(iLogical + iWord.FillCount, jLogical + jWord.FillCount) - logical;
+                                int fillCount =
+                                    Math.Min(iLogical + iWord.FillCount, jLogical + jWord.FillCount) - logical;
 
                                 population += fillCount * (Word.SIZE - 1);
                             }
@@ -603,14 +608,17 @@ public sealed partial class Vector
                         if (jUsePackedWord || !jWord.IsCompressed)
                         {
                             if (jLogical == iLogical)
-                                if ((iWord.PackedWord.Raw & (jUsePackedWord ? jWord.PackedWord.Raw : jWord.Raw)) > Word.ZERO)
+                            {
+                                if ((iWord.PackedWord.Raw & (jUsePackedWord ? jWord.PackedWord.Raw : jWord.Raw))
+                                    > Word.ZERO)
                                     population++;
+                            }
 
                             jLogical++;
                         }
                         else
                         {
-                            if (jWord.FillBit && (jLogical + jWord.FillCount) > iLogical)
+                            if (jWord.FillBit && jLogical + jWord.FillCount > iLogical)
                                 population++;
 
                             if (jLogical + jWord.FillCount <= iLogical + 1)
@@ -862,7 +870,11 @@ public sealed partial class Vector
             throw new ArgumentNullException(nameof(vectors));
 
         if (vectors.Length < 2)
-            throw new ArgumentOutOfRangeException(nameof(vectors), "At least 2 Vectors must be provided in order to CreateUnion.");
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(vectors),
+                "At least 2 Vectors must be provided in order to CreateUnion.");
+        }
 
         int maxWordCountLogical = vectors.Max(v => v._wordCountLogical);
 

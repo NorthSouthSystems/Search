@@ -2,10 +2,18 @@
 using NorthSouthSystems.StackExchange;
 
 [MemoryDiagnoser]
-[GenericTypeArguments(typeof(NorthSouthSystems.BitVectors.PLWAH.PLWAHVectorFactory), typeof(NorthSouthSystems.BitVectors.PLWAH.Vector))]
-[GenericTypeArguments(typeof(NorthSouthSystems.BitVectors.PLWAH64.PLWAH64VectorFactory), typeof(NorthSouthSystems.BitVectors.PLWAH64.Vector))]
-[GenericTypeArguments(typeof(NorthSouthSystems.BitVectors.WAH.WAHVectorFactory), typeof(NorthSouthSystems.BitVectors.WAH.Vector))]
-[GenericTypeArguments(typeof(NorthSouthSystems.BitVectors.WAH64.WAH64VectorFactory), typeof(NorthSouthSystems.BitVectors.WAH64.Vector))]
+[GenericTypeArguments(
+    typeof(NorthSouthSystems.BitVectors.PLWAH.PLWAHVectorFactory),
+    typeof(NorthSouthSystems.BitVectors.PLWAH.Vector))]
+[GenericTypeArguments(
+    typeof(NorthSouthSystems.BitVectors.PLWAH64.PLWAH64VectorFactory),
+    typeof(NorthSouthSystems.BitVectors.PLWAH64.Vector))]
+[GenericTypeArguments(
+    typeof(NorthSouthSystems.BitVectors.WAH.WAHVectorFactory),
+    typeof(NorthSouthSystems.BitVectors.WAH.Vector))]
+[GenericTypeArguments(
+    typeof(NorthSouthSystems.BitVectors.WAH64.WAH64VectorFactory),
+    typeof(NorthSouthSystems.BitVectors.WAH64.Vector))]
 public class B_Engine_Query<TBitVectorFactory, TBitVector> : B_EngineBase<TBitVector>
     where TBitVectorFactory : IBitVectorFactory<TBitVector>
     where TBitVector : IBitVector<TBitVector>
@@ -42,7 +50,8 @@ public class B_Engine_Query<TBitVectorFactory, TBitVector> : B_EngineBase<TBitVe
     {
         const int jonSkeetUserId = 22656;
 
-        return query.Filter(FilterParameter.Create(PostTypeCatalog, (byte)1)
+        return query.Filter(
+            FilterParameter.Create(PostTypeCatalog, (byte)1)
             && FilterParameter.Create(OwnerUserIdCatalog, jonSkeetUserId));
     }
 
@@ -50,7 +59,8 @@ public class B_Engine_Query<TBitVectorFactory, TBitVector> : B_EngineBase<TBitVe
         query.Sort(SortParameter.Create(CreationDateCatalog, false));
 
     private Query<int> Facet(Query<int> query) =>
-        query.Facet(FacetParameter.Create(PostTypeCatalog),
+        query.Facet(
+            FacetParameter.Create(PostTypeCatalog),
             FacetParameter.Create(CreationDateCatalog),
             FacetParameter.Create(LastActivityDateCatalog),
             FacetParameter.Create(ViewCountCatalog),
