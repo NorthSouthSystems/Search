@@ -140,7 +140,7 @@ public sealed partial class Vector : IBitVector<Vector>
         {
             length = Convert.ToInt32(length * WORDGROWTHFACTOR);
 
-            Word[] tempWords = _words;
+            var tempWords = _words;
             _words = ArrayPool<Word>.Shared.Rent(length);
             Array.Copy(tempWords, _words, _wordCountPhysical);
 
@@ -170,7 +170,7 @@ public sealed partial class Vector : IBitVector<Vector>
                 throw new ArgumentOutOfRangeException(nameof(bitPosition), bitPosition, "Must be > 0.");
 
             int wordPositionLogical = WordPositionLogical(bitPosition);
-            Word word = GetWordLogical(wordPositionLogical);
+            var word = GetWordLogical(wordPositionLogical);
             int wordBitPosition = WordBitPosition(bitPosition);
             return word[wordBitPosition];
         }
@@ -196,7 +196,7 @@ public sealed partial class Vector : IBitVector<Vector>
 #else
         int wordPositionPhysical = WordPositionPhysical(wordPositionLogical);
 #endif
-        Word word = _words[wordPositionPhysical];
+        var word = _words[wordPositionPhysical];
 
         if (word.IsCompressed)
         {
@@ -235,7 +235,7 @@ public sealed partial class Vector : IBitVector<Vector>
 
         for (int i = 0; i < _wordCountPhysical; i++)
         {
-            Word word = _words[i];
+            var word = _words[i];
 #if POSITIONLISTENABLED
             isPacked = false;
 #endif
@@ -602,7 +602,7 @@ public sealed partial class Vector : IBitVector<Vector>
 
         for (int i = 0; i < _wordCountPhysical; i++)
         {
-            Word word = _words[i];
+            var word = _words[i];
 
             if (word.IsCompressed)
             {

@@ -204,7 +204,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
 
             _configuring = false;
 
-            foreach (TItem item in items)
+            foreach (var item in items)
                 AddItem(item);
         }
         finally
@@ -215,7 +215,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
 
     private void AddItem(TItem item)
     {
-        TPrimaryKey primaryKey = _primaryKeyExtractor(item);
+        var primaryKey = _primaryKeyExtractor(item);
 
         if (_primaryKeyToActiveBitPositionMap.ContainsKey(primaryKey))
             throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "An item already exists in this Engine with the primary key : {0}.", primaryKey));
@@ -255,7 +255,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         {
             _rwLock.EnterWriteLock();
 
-            foreach (TItem item in items)
+            foreach (var item in items)
                 UpdateItem(item);
         }
         finally
@@ -266,7 +266,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
 
     private void UpdateItem(TItem item)
     {
-        TPrimaryKey primaryKey = _primaryKeyExtractor(item);
+        var primaryKey = _primaryKeyExtractor(item);
 
         if (!_primaryKeyToActiveBitPositionMap.TryGetValue(primaryKey, out int fromBitPosition))
             throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "No item exists in this Engine with the primary key : {0}.", primaryKey));
@@ -308,7 +308,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         {
             _rwLock.EnterWriteLock();
 
-            foreach (TItem item in items)
+            foreach (var item in items)
                 RemoveItem(item);
         }
         finally
@@ -319,7 +319,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
 
     private void RemoveItem(TItem item)
     {
-        TPrimaryKey primaryKey = _primaryKeyExtractor(item);
+        var primaryKey = _primaryKeyExtractor(item);
 
         if (!_primaryKeyToActiveBitPositionMap.Remove(primaryKey, out int bitPosition))
             throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "No item exists in this Engine with the primary key : {0}.", primaryKey));
@@ -412,7 +412,7 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         Trace.Assert(query.FilterClause == null || query.FilterClause.SubClauses.All(clause => clause is IFilterParameter));
         var filterParameters = query.FilterClause == null ? Enumerable.Empty<IFilterParameter>() : query.FilterClause.SubClauses.Cast<IFilterParameter>();
 
-        foreach (IFilterParameter filterParameter in filterParameters)
+        foreach (var filterParameter in filterParameters)
         {
             var catalog = (ICatalogInEngine<TBitVector>)filterParameter.Catalog;
 

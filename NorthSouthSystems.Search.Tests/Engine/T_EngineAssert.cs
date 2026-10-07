@@ -16,7 +16,7 @@ internal static class T_EngineAssert
         if (query.SortParameters.Any() || query.SortPrimaryKeyAscending.HasValue)
             source = SourceSort(source, query);
 
-        T_EngineItem[] sourceResults = source.ToArray();
+        var sourceResults = source.ToArray();
 
         result.TotalCount.Should().Be(sourceResults.Length);
         result.PrimaryKeys.Should().Equal(sourceResults.Skip(skip).Take(take).Select(item => item.Id).ToArray());

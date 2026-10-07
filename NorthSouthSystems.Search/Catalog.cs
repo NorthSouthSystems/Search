@@ -39,7 +39,7 @@ public sealed partial class Catalog<TBitVector, TKey> : ICatalogInEngine<TBitVec
 
     void ICatalogInEngine.OptimizeReadPhase(int[] bitPositionShifts)
     {
-        foreach (Entry entry in _keyToEntryMap.Values)
+        foreach (var entry in _keyToEntryMap.Values)
             entry.IsVectorOptimizedAlive = entry.Vector.OptimizeReadPhase(bitPositionShifts, out entry.VectorOptimized);
     }
 
@@ -58,7 +58,7 @@ public sealed partial class Catalog<TBitVector, TKey> : ICatalogInEngine<TBitVec
             keyAndEntry.Value.IsVectorOptimizedAlive = false;
         }
 
-        foreach (TKey key in deadKeys)
+        foreach (var key in deadKeys)
         {
             _keys.Remove(key);
             _keyToEntryMap.Remove(key);
@@ -82,7 +82,7 @@ public sealed partial class Catalog<TBitVector, TKey> : ICatalogInEngine<TBitVec
         if (key == null)
             throw new ArgumentNullException(nameof(key));
 
-        if (!_keyToEntryMap.TryGetValue(key, out Entry? entry))
+        if (!_keyToEntryMap.TryGetValue(key, out var entry))
         {
             entry = new Entry(_bitVectorFactory.Create(true));
 
@@ -100,7 +100,7 @@ public sealed partial class Catalog<TBitVector, TKey> : ICatalogInEngine<TBitVec
         if (IsOneToOne)
             throw new NotSupportedException("One-to-one Catalogs must use Set(TKey key, ...) instead.");
 
-        foreach (TKey key in keys)
+        foreach (var key in keys)
             Set(key, bitPosition, value);
     }
 
@@ -168,7 +168,7 @@ public sealed partial class Catalog<TBitVector, TKey> : ICatalogInEngine<TBitVec
 
     private void FilterImpl(TBitVector vector, IEnumerable<TBitVector?> lookups)
     {
-        TBitVector[] lookupsArray = lookups.Where(lookup => lookup != null).Select(lookup => lookup!).ToArray();
+        var lookupsArray = lookups.Where(lookup => lookup != null).Select(lookup => lookup!).ToArray();
 
         if (lookupsArray.Length == 0)
             vector.Clear();
@@ -178,7 +178,7 @@ public sealed partial class Catalog<TBitVector, TKey> : ICatalogInEngine<TBitVec
             vector.AndInPlace(_bitVectorFactory.CreateUncompressedUnion(lookupsArray));
     }
 
-    private TBitVector? Lookup(TKey key) => _keyToEntryMap.TryGetValue(key, out Entry? entry) ? entry.Vector : default;
+    private TBitVector? Lookup(TKey key) => _keyToEntryMap.TryGetValue(key, out var entry) ? entry.Vector : default;
 
     #endregion
 

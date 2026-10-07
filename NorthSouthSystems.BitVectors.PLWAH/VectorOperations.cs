@@ -24,7 +24,7 @@ public sealed partial class Vector
 
         while (j < jWords.Length)
         {
-            Word jWord = jWords[j];
+            var jWord = jWords[j];
 
             if (jWord.IsCompressed)
             {
@@ -101,7 +101,7 @@ public sealed partial class Vector
 
         while (i < iWords.Length && j < jWords.Length)
         {
-            Word jWord = jWords[j];
+            var jWord = jWords[j];
 
             if (jWord.IsCompressed)
             {
@@ -191,7 +191,7 @@ public sealed partial class Vector
 
         while (i < iWords.Length && j < jWords.Length)
         {
-            Word jWord = jWords[j];
+            var jWord = jWords[j];
 
             if (jWord.IsCompressed)
             {
@@ -248,14 +248,14 @@ public sealed partial class Vector
         var jWords = jVector.GetWordsSpanPhysical();
         int jLogical = 0;
 
-        Word jWord = jWords[j];
+        var jWord = jWords[j];
 #if POSITIONLISTENABLED
         bool jUsePackedWord = false;
 #endif
 
         while (i < iWords.Length)
         {
-            Word iWord = iWords[i];
+            var iWord = iWords[i];
 
             if (iWord.IsCompressed)
             {
@@ -465,7 +465,7 @@ public sealed partial class Vector
 
         while (i < iWords.Length && j < jWords.Length)
         {
-            Word jWord = jWords[j];
+            var jWord = jWords[j];
 
             if (jWord.IsCompressed)
             {
@@ -488,7 +488,7 @@ public sealed partial class Vector
 #if POSITIONLISTENABLED
                 if (jWord.HasPackedWord && i < iWords.Length)
                 {
-                    Word iWord = iWords[i];
+                    var iWord = iWords[i];
 
                     if (iWord.Raw > Word.ZERO && (iWord.Raw & jWord.PackedWord.Raw) > Word.ZERO)
                         population++;
@@ -525,14 +525,14 @@ public sealed partial class Vector
         var jWords = jVector.GetWordsSpanPhysical();
         int jLogical = 0;
 
-        Word jWord = jWords[j];
+        var jWord = jWords[j];
 #if POSITIONLISTENABLED
         bool jUsePackedWord = false;
 #endif
 
         while (i < iWords.Length)
         {
-            Word iWord = iWords[i];
+            var iWord = iWords[i];
 
             if (iWord.IsCompressed)
             {
@@ -737,7 +737,7 @@ public sealed partial class Vector
 
         while (i < iWords.Length && j < jWords.Length)
         {
-            Word jWord = jWords[j];
+            var jWord = jWords[j];
 
             if (jWord.IsCompressed)
             {
@@ -762,7 +762,7 @@ public sealed partial class Vector
 #if POSITIONLISTENABLED
                 if (jWord.HasPackedWord && i < iWords.Length)
                 {
-                    Word iWord = iWords[i];
+                    var iWord = iWords[i];
 
                     if (iWord.Raw > Word.ZERO && (iWord.Raw & jWord.PackedWord.Raw) > Word.ZERO)
                         return true;
@@ -817,7 +817,7 @@ public sealed partial class Vector
 
         while (i < iWords.Length && j < jWords.Length)
         {
-            Word jWord = jWords[j];
+            var jWord = jWords[j];
 
             if (jWord.IsCompressed)
             {

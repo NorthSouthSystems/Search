@@ -49,7 +49,7 @@ internal static class T_EngineExtensionsForTests
         this Engine<TBitVector, T_EngineItem, int> engine, ICatalogHandle<DateTime> catalog, Random random, int max)
         where TBitVector : IBitVector<TBitVector>
     {
-        DateTime exact = new DateTime(2011, 1, 1).AddDays(random.Next(max));
+        var exact = new DateTime(2011, 1, 1).AddDays(random.Next(max));
 
         return random.Next() % 2 == 0
             ? FilterParameter.Create(catalog, exact)
@@ -60,7 +60,7 @@ internal static class T_EngineExtensionsForTests
         this Engine<TBitVector, T_EngineItem, int> engine, ICatalogHandle<DateTime> catalog, Random random, int max)
         where TBitVector : IBitVector<TBitVector>
     {
-        DateTime[] enumerable = Enumerable.Range(0, random.Next(max))
+        var enumerable = Enumerable.Range(0, random.Next(max))
             .Select(i => random.Next(max))
             .Distinct()
             .Select(i => new DateTime(2011, 1, 1).AddDays(i))
@@ -81,8 +81,8 @@ internal static class T_EngineExtensionsForTests
         if (val1 == val2)
             val2++;
 
-        DateTime rangeMin = new DateTime(2011, 1, 1).AddDays(Math.Min(val1, val2));
-        DateTime rangeMax = new DateTime(2011, 1, 1).AddDays(Math.Max(val1, val2));
+        var rangeMin = new DateTime(2011, 1, 1).AddDays(Math.Min(val1, val2));
+        var rangeMax = new DateTime(2011, 1, 1).AddDays(Math.Max(val1, val2));
 
         return random.Next() % 2 == 0
             ? FilterParameter.Create(catalog, rangeMin, rangeMax)

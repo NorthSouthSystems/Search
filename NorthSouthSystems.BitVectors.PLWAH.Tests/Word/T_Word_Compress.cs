@@ -131,7 +131,7 @@ public class T_Word_Compress
         act = () =>
         {
             var word = new Word(Word.ZERO);
-            Word packedWord = word.PackedWord;
+            var packedWord = word.PackedWord;
         };
         act.Should().ThrowExactly<NotSupportedException>(because: "PackedWordNotSupported");
 
