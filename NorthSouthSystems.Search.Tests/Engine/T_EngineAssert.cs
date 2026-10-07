@@ -78,16 +78,20 @@ internal static class T_EngineAssert
                 sortedSource = SourceSort(sortedSource, query.SortParameters.ToArray()[i]);
 
             if (query.SortPrimaryKeyAscending.HasValue)
+            {
                 return query.SortPrimaryKeyAscending.Value
                     ? sortedSource.ThenBy(item => item.Id)
                     : sortedSource.ThenByDescending(item => item.Id);
+            }
             else
                 return sortedSource;
         }
         else
+        {
             return query.SortPrimaryKeyAscending.Value
                 ? source.OrderBy(item => item.Id)
                 : source.OrderByDescending(item => item.Id);
+        }
     }
 
     private static IOrderedEnumerable<T_EngineItem> SourceSort(

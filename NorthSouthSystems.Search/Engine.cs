@@ -70,15 +70,19 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
             _rwLock.EnterWriteLock();
 
             if (!_configuring)
+            {
                 throw new NotSupportedException(
                     "Cannot create a Catalog in an Engine that has already called Add or CreateQuery.");
+            }
 
             if (_catalogsPlusExtractors.Any(cpe => cpe.Catalog.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
+            {
                 throw new ArgumentException(
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "A Catalog already exists with the case-insensitive name : {0}.",
                         name));
+            }
 
             catalog = new(_bitVectorFactory, name, isOneToOne);
             _catalogsPlusExtractors.Add(new(catalog, keyOrKeysExtractor));
@@ -230,11 +234,13 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         var primaryKey = _primaryKeyExtractor(item);
 
         if (_primaryKeyToActiveBitPositionMap.ContainsKey(primaryKey))
+        {
             throw new ArgumentException(
                 string.Format(
                     CultureInfo.InvariantCulture,
                     "An item already exists in this Engine with the primary key : {0}.",
                     primaryKey));
+        }
 
         int bitPosition = _primaryKeys.Count;
         _primaryKeys.Add(primaryKey);
@@ -285,11 +291,13 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         var primaryKey = _primaryKeyExtractor(item);
 
         if (!_primaryKeyToActiveBitPositionMap.TryGetValue(primaryKey, out int fromBitPosition))
+        {
             throw new ArgumentException(
                 string.Format(
                     CultureInfo.InvariantCulture,
                     "No item exists in this Engine with the primary key : {0}.",
                     primaryKey));
+        }
 
         _activeItems[fromBitPosition] = false;
 
@@ -342,11 +350,13 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
         var primaryKey = _primaryKeyExtractor(item);
 
         if (!_primaryKeyToActiveBitPositionMap.Remove(primaryKey, out int bitPosition))
+        {
             throw new ArgumentException(
                 string.Format(
                     CultureInfo.InvariantCulture,
                     "No item exists in this Engine with the primary key : {0}.",
                     primaryKey));
+        }
 
         _activeItems[bitPosition] = false;
     }
@@ -494,31 +504,39 @@ public sealed partial class Engine<TBitVector, TItem, TPrimaryKey> : IEngine<TPr
                     query.SortDisableParallel || (sortCount == sortParameterIndex + 1 && skipPlusTake < totalCount);
 
                 if (sortParameterIndex == 0)
+                {
                     sortResult = ((ICatalogInEngine<TBitVector>)sortParameter.Catalog).Sort(
                         filterResult,
                         true,
                         sortParameter.Ascending,
                         sortDisableParallel);
+                }
                 else
+                {
                     sortResult = ((ICatalogInEngine<TBitVector>)sortParameter.Catalog).ThenSort(
                         sortResult,
                         true,
                         sortParameter.Ascending,
                         sortDisableParallel);
+                }
             }
 
             if (query.SortPrimaryKeyAscending.HasValue)
+            {
                 return sortResult.PartialSorts.SelectMany(partialSort =>
                     SortBitPositionsByPrimaryKey(
                         partialSort.GetBitPositions(true),
                         query.SortPrimaryKeyAscending.Value));
+            }
             else
                 return sortResult.PartialSorts.SelectMany(partialSort => partialSort.GetBitPositions(true));
         }
         else if (query.SortPrimaryKeyAscending.HasValue)
+        {
             return SortBitPositionsByPrimaryKey(
                 filterResult.GetBitPositions(true),
                 query.SortPrimaryKeyAscending.Value);
+        }
         else
             return filterResult.GetBitPositions(true);
     }

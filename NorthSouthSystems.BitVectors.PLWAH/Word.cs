@@ -43,10 +43,12 @@ internal struct Word
     public Word(WordRawType raw)
     {
         if (raw >= COMPRESSEDMASK)
+        {
             throw new ArgumentOutOfRangeException(
                 nameof(raw),
                 raw,
                 FormattableString.Invariant($"Must be < COMPRESSEDMASK : 0x{COMPRESSEDMASK:X}."));
+        }
 
         Raw = raw;
     }
@@ -57,10 +59,12 @@ internal struct Word
             throw new ArgumentOutOfRangeException(nameof(fillCount), fillCount, "Must be >= 0.");
 
         if ((WordRawType)fillCount > FILLCOUNTMASK)
+        {
             throw new ArgumentOutOfRangeException(
                 nameof(fillCount),
                 fillCount,
                 FormattableString.Invariant($"Must be <= FILLCOUNTMASK : 0x{FILLCOUNTMASK:X}."));
+        }
 
         WordRawType fillCountTyped = (WordRawType)fillCount;
 
@@ -96,10 +100,12 @@ internal struct Word
             throw new ArgumentOutOfRangeException(nameof(position), position, "Must be >= 0.");
 
         if (position >= SIZE - 1)
+        {
             throw new ArgumentOutOfRangeException(
                 nameof(position),
                 position,
                 FormattableString.Invariant($"Must be < SIZE - 1 : {SIZE - 1}."));
+        }
 
         return FIRSTBITPOSITIONMASK >> position;
     }
@@ -205,8 +211,10 @@ internal struct Word
         get
         {
             if (!HasPackedWord)
+            {
                 throw new NotSupportedException(
                     "Cannot retrieve the PackedPosition for a Word that does not contain a Packed Word.");
+            }
 
             return (int)((Raw & PACKEDPOSITIONMASK) >> (SIZE - 2 - PACKEDPOSITIONSIZE)) - 1;
         }
@@ -217,8 +225,10 @@ internal struct Word
         get
         {
             if (!HasPackedWord)
+            {
                 throw new NotSupportedException(
                     "Cannot retrieve the PackedWord for a Word that does not contain a Packed Word.");
+            }
 
             return new(ONE << (SIZE - 2 - PackedPosition));
         }
