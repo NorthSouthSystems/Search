@@ -10,8 +10,6 @@
     <Folder Name="/_/">
         <File Path=".editorconfig" />
         <File Path=".gitattributes" />
-        <File Path=".github/workflows/BuildTestAnalyze.yml" />
-        <File Path=".github/workflows/BuildTestPackagePublish.yml" />
         <File Path=".gitignore" />
         <File Path="Directory.Build.props" />
         <File Path="Directory.Packages.props" />
@@ -23,6 +21,10 @@
         <File Path="LICENSE" />
         <File Path="nuget.config" />
         <File Path="version.json" />
+    </Folder>
+    <Folder Name="/_/GitHubActions/">
+        <File Path=".github/workflows/Deploy.yml" />
+        <File Path=".github/workflows/Integrate.yml" />
     </Folder>
     <Project Path="NorthSouthSystems.BitVectors.PLWAH.Tests/NorthSouthSystems.BitVectors.PLWAH.Tests.csproj" />
     <Project Path="NorthSouthSystems.BitVectors.PLWAH/NorthSouthSystems.BitVectors.PLWAH.csproj" />
